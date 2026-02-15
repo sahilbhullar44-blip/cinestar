@@ -41,23 +41,125 @@ const Navbar = () => {
 
   useEffect(() => {
     if (isMenuOpen) {
-      gsap.to(menuRef.current, { x: 0, duration: 0.6, ease: "power3.out" });
-      gsap.to(line1Ref.current, { rotation: 45, y: 8, duration: 0.3 });
-      gsap.to(line2Ref.current, { opacity: 0, duration: 0.3 });
-      gsap.to(line3Ref.current, { rotation: -45, y: -8, duration: 0.3 });
+      // Creative entrance animation - scale and rotate from center
+      gsap.fromTo(menuRef.current, 
+        { 
+          scale: 0,
+          rotation: -15,
+          transformOrigin: "top right",
+          opacity: 0
+        },
+        { 
+          scale: 1,
+          rotation: 0,
+          opacity: 1,
+          duration: 0.8, 
+          ease: "back.out(1.4)"
+        }
+      );
       
-      // Animate menu items
-      const menuItems = menuRef.current?.querySelectorAll('a');
-      if (menuItems) {
-        gsap.fromTo(menuItems, 
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.4, stagger: 0.1, ease: "power3.out" }
+      // Hamburger to X animation with bounce
+      gsap.to(line1Ref.current, { rotation: 45, y: 8, duration: 0.4, ease: "back.out(2)" });
+      gsap.to(line2Ref.current, { opacity: 0, scale: 0, duration: 0.3 });
+      gsap.to(line3Ref.current, { rotation: -45, y: -8, duration: 0.4, ease: "back.out(2)" });
+      
+      // Animate nav heading with typewriter effect
+      const heading = menuRef.current?.querySelector('.menu-heading');
+      if (heading) {
+        gsap.fromTo(heading,
+          { opacity: 0, y: 50, rotationX: -90 },
+          { opacity: 1, y: 0, rotationX: 0, duration: 0.8, ease: "power3.out", delay: 0.2 }
+        );
+      }
+      
+      // Animate nav links with creative stagger and 3D effect
+      const navLinks = menuRef.current?.querySelectorAll('.menu-nav-link');
+      if (navLinks) {
+        gsap.fromTo(navLinks,
+          { opacity: 0, y: 100, rotationY: -90, scale: 0.5 },
+          { 
+            opacity: 1, 
+            y: 0, 
+            rotationY: 0, 
+            scale: 1,
+            duration: 0.7, 
+            stagger: 0.15, 
+            ease: "back.out(1.2)", 
+            delay: 0.4 
+          }
+        );
+      }
+
+      // Animate contact section with wave effect
+      const contactHeading = menuRef.current?.querySelector('.contact-heading');
+      const contactItems = menuRef.current?.querySelectorAll('.contact-item');
+      if (contactHeading) {
+        gsap.fromTo(contactHeading,
+          { opacity: 0, x: 100, rotationZ: 10 },
+          { opacity: 1, x: 0, rotationZ: 0, duration: 0.8, ease: "elastic.out(1, 0.5)", delay: 0.6 }
+        );
+      }
+      if (contactItems) {
+        gsap.fromTo(contactItems,
+          { opacity: 0, x: 80, scale: 0.8 },
+          { 
+            opacity: 1, 
+            x: 0, 
+            scale: 1,
+            duration: 0.6, 
+            stagger: 0.1, 
+            ease: "power2.out", 
+            delay: 0.8 
+          }
+        );
+      }
+
+      // Animate social icons with bounce
+      const followHeading = menuRef.current?.querySelector('.follow-heading');
+      const socialIcons = menuRef.current?.querySelectorAll('.social-icon-menu');
+      if (followHeading) {
+        gsap.fromTo(followHeading,
+          { opacity: 0, y: 30, scale: 0.5 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "back.out(1.7)", delay: 1 }
+        );
+      }
+      if (socialIcons) {
+        gsap.fromTo(socialIcons,
+          { opacity: 0, scale: 0, rotation: -180 },
+          { 
+            opacity: 1, 
+            scale: 1, 
+            rotation: 0,
+            duration: 0.5, 
+            stagger: 0.1, 
+            ease: "back.out(2)", 
+            delay: 1.2 
+          }
+        );
+      }
+
+      // Animate CTA button
+      const bookBtn = menuRef.current?.querySelector('.book-btn-menu');
+      if (bookBtn) {
+        gsap.fromTo(bookBtn,
+          { opacity: 0, y: 50, scale: 0.8 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "back.out(1.4)", delay: 1.4 }
         );
       }
     } else {
-      gsap.to(menuRef.current, { x: "100%", duration: 0.6, ease: "power3.in" });
+      // Creative exit animation - scale down and rotate
+      gsap.to(menuRef.current, { 
+        scale: 0,
+        rotation: 15,
+        transformOrigin: "top right",
+        opacity: 0,
+        duration: 0.5, 
+        ease: "back.in(1.7)" 
+      });
+      
+      // Reset hamburger lines
       gsap.to(line1Ref.current, { rotation: 0, y: 0, duration: 0.3 });
-      gsap.to(line2Ref.current, { opacity: 1, duration: 0.3 });
+      gsap.to(line2Ref.current, { opacity: 1, scale: 1, duration: 0.3 });
       gsap.to(line3Ref.current, { rotation: 0, y: 0, duration: 0.3 });
     }
   }, [isMenuOpen]);
@@ -154,8 +256,7 @@ const Navbar = () => {
         }
       `}</style>
 
-      {/* Animated background gradient */}
-      <div className="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-0 z-49" />
+
 
       {/* Cross Navbar */}
       <nav 
@@ -210,73 +311,173 @@ const Navbar = () => {
           </div>
         </Link>
 
-        {/* MENU TOGGLE */}
-        <button 
-          ref={menuButtonRef}
-          className="text-white menu-button-glow z-60 relative group cursor-pointer"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          <div className="w-8 h-6 flex flex-col justify-between relative">
-            <div ref={line1Ref} className="w-full h-0.5 bg-yellow-400 origin-center transition-all"></div>
-            <div ref={line2Ref} className="w-full h-0.5 bg-yellow-400"></div>
-            <div ref={line3Ref} className="w-full h-0.5 bg-yellow-400 origin-center transition-all"></div>
-          </div>
-          {/* Glow effect on hover */}
-          <div className="absolute -inset-4 bg-yellow-500/20 rounded opacity-0 group-hover:opacity-100 -z-10 transition-opacity duration-300 blur" />
-        </button>
+        {/* DESKTOP NAVIGATION - Hidden on mobile */}
+     
+
+        {/* RIGHT SECTION - Book Tickets + Menu Toggle */}
+        <div className="flex items-center gap-4">
+          {/* Book Tickets Button - Hidden on mobile */}
+    
+
+          {/* MENU TOGGLE */}
+          <button 
+            ref={menuButtonRef}
+            className="text-white menu-button-glow z-70 relative group cursor-pointer"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <div className="w-8 h-6 flex flex-col justify-between relative">
+              <div ref={line1Ref} className="w-full h-0.5 bg-yellow-400 origin-center transition-all"></div>
+              <div ref={line2Ref} className="w-full h-0.5 bg-yellow-400"></div>
+              <div ref={line3Ref} className="w-full h-0.5 bg-yellow-400 origin-center transition-all"></div>
+            </div>
+            {/* Glow effect on hover */}
+            <div className="absolute -inset-4 bg-yellow-500/20 rounded opacity-0 group-hover:opacity-100 -z-10 transition-opacity duration-300 blur" />
+          </button>
+        </div>
       </nav>
 
       {/* Sidebar Menu */}
       <div 
         ref={menuRef}
-        className="fixed top-0 right-0 w-full md:w-96 h-screen bg-gradient-to-b from-black/98 via-black/95 to-black/98 backdrop-blur-xl z-40 transform translate-x-full border-l border-yellow-500/20 flex flex-col"
+        className="fixed top-0 right-0 w-full h-screen bg-gradient-to-b from-black/98 via-black/95 to-black/98 backdrop-blur-xl z-60 border-l border-yellow-500/30 flex flex-col md:flex-row overflow-y-auto md:overflow-y-visible opacity-0 scale-0"
+        style={{ transformOrigin: 'top right' }}
       >
-        {/* Menu header decoration */}
-        <div className="h-24 flex items-center px-8 border-b border-yellow-500/20 flex-shrink-0">
-          <div className="flex items-center space-x-3">
-            <div className="w-3 h-3 rounded-full bg-yellow-500 animate-pulse" />
-            <span className="text-yellow-400 text-sm tracking-widest">MENU</span>
+        {/* Close Button */}
+        <button
+          onClick={() => setIsMenuOpen(false)}
+          className="absolute top-6 right-6 text-yellow-400 hover:text-yellow-300 transition-colors z-50"
+        >
+          <X size={32} />
+        </button>
+
+        {/* LEFT SECTION - Navigation */}
+        <div className="w-full md:w-1/2 flex flex-col pt-32 md:pt-16 px-8 md:px-12 py-12 border-b md:border-b-0 md:border-r border-yellow-500/20">
+          
+          {/* Menu Logo/Branding */}
+          <div className="menu-heading mb-16 md:mb-20">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-12 h-1 bg-gradient-to-r from-yellow-500 to-yellow-600"></div>
+            </div>
+            <h2 className="text-white text-3xl md:text-4xl font-oswald font-bold uppercase tracking-widest">
+              Menu
+            </h2>
+          </div>
+
+          {/* Navigation Links */}
+          <nav className="space-y-8 flex-1">
+            {navLinks.map((link) => (
+              <div
+                key={link.name}
+                onClick={() => setIsMenuOpen(false)}
+                className="menu-nav-link group block relative overflow-hidden cursor-pointer"
+              >
+                <FlipLink 
+                  href={link.href}
+                >
+                  {link.name}
+                </FlipLink>
+              </div>
+            ))}
+          </nav>
+
+          {/* Mobile Social Links */}
+          <div className="md:hidden border-t border-yellow-500/20 pt-8 mt-12">
+            <h4 className="social-icon-menu text-yellow-400 text-sm uppercase tracking-widest font-bold mb-6">Follow Us</h4>
+            <div className="flex items-center gap-6">
+              {socialtLinks.map((link, index) => {
+                const IconComponent = link.icon;
+                return (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="social-icon-menu text-yellow-400 hover:text-yellow-300 transition-all duration-300 hover:scale-110"
+                  >
+                    <IconComponent size={28} />
+                  </a>
+                );
+              })}
+            </div>
           </div>
         </div>
 
-        {/* Menu items - expandable */}
-        <div className="flex-1 flex flex-col justify-center items-center space-y-12 px-8">
-          {navLinks.map((link, index) => (
-            <div key={link.name} className="nav-hover-line">
-              <FlipLink 
-                href={link.href}
-              >
-                {link.name}
-              </FlipLink>
-            </div>
-          ))}
-        </div>
+        {/* RIGHT SECTION - Contact & Info (Hidden on mobile) */}
+        <div className="hidden md:flex w-1/2 flex-col px-12 pt-16 pb-12 justify-between">
+          
+          {/* Contact Information */}
+          <div>
+            <h3 className="contact-heading text-white text-2xl font-oswald font-bold uppercase tracking-widest mb-12">
+              Contact<span className="block text-yellow-400">Information</span>
+            </h3>
 
-        {/* Social Links at Bottom */}
-        <div className="px-8 pb-16 border-t border-yellow-500/20 flex-shrink-0">
-          <div className="flex flex-row justify-center items-center space-x-12 pt-8">
-            {socialtLinks.map((link, index) => {
-              const IconComponent = link.icon;
-              return (
-                <a
-                  key={link.name}
-                  ref={(el) => {
-                    if (el) iconRefs.current[index] = el;
-                  }}
-                  href={link.href}
-                  className="group text-yellow-400 hover:text-yellow-200 transition-all duration-300 relative"
-                  onMouseEnter={() => handleIconHover(index, true)}
-                  onMouseLeave={() => handleIconHover(index, false)}
-                  title={link.name}
-                >
-                  <IconComponent 
-                    size={32} 
-                    className="transition-all duration-300 group-hover:drop-shadow-lg group-hover:drop-shadow-yellow-400"
-                  />
-                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-yellow-500 group-hover:w-full transition-all duration-300"></div>
-                </a>
-              );
-            })}
+            <div className="space-y-10">
+              {/* Phone */}
+              <a href="tel:+61885569364" className="contact-item flex items-start gap-4 group cursor-pointer hover:scale-105 transition-transform duration-300">
+                <div className="text-yellow-400 mt-1 group-hover:scale-110 transition-transform">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-gray-500 text-xs uppercase tracking-widest mb-2">Phone</p>
+                  <p className="text-white text-lg group-hover:text-yellow-400 transition-colors">+61 8 8569 3645</p>
+                </div>
+              </a>
+
+              {/* Email */}
+              <a href="mailto:info@cinestarevents.com.au" className="contact-item flex items-start gap-4 group cursor-pointer hover:scale-105 transition-transform duration-300">
+                <div className="text-yellow-400 mt-1 group-hover:scale-110 transition-transform">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-gray-500 text-xs uppercase tracking-widest mb-2">Email</p>
+                  <p className="text-white text-lg group-hover:text-yellow-400 transition-colors">info@cinestarevents.com.au</p>
+                </div>
+              </a>
+
+              {/* Address */}
+              <a href="https://maps.google.com" className="contact-item flex items-start gap-4 group cursor-pointer hover:scale-105 transition-transform duration-300">
+                <div className="text-yellow-400 mt-1 group-hover:scale-110 transition-transform">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-gray-500 text-xs uppercase tracking-widest mb-2">Address</p>
+                  <p className="text-white text-lg group-hover:text-yellow-400 transition-colors">Sydney, Australia</p>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          {/* Follow Us & Button */}
+          <div className="space-y-8">
+            <div>
+              <h4 className="follow-heading text-white text-xl font-oswald font-bold uppercase tracking-widest mb-8">Follow Us</h4>
+              <div className="flex items-center gap-10">
+                {socialtLinks.map((link, index) => {
+                  const IconComponent = link.icon;
+                  return (
+                    <a
+                      key={link.name}
+                      href={link.href}
+                      className="social-icon-menu group text-yellow-400 hover:text-yellow-200 transition-all duration-300"
+                      title={link.name}
+                    >
+                      <IconComponent size={36} className="group-hover:scale-125 transition-transform duration-300" />
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* CTA Button */}
+            <button className="book-btn-menu w-full px-8 py-4 bg-yellow-500 hover:bg-yellow-400 text-black font-oswald font-bold uppercase tracking-widest rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-yellow-500/50 text-lg">
+              Book an Event →
+            </button>
           </div>
         </div>
       </div>
