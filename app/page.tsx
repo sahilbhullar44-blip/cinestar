@@ -3,6 +3,7 @@ import Galaxy from "./components/Galaxy";
 import AnimatedSections from "./components/ui/animated-sections-1";
 import ScrollExpandMedia from './components/blocks/scroll-expansion-hero';
 import ArtistShowcase from './components/ArtistShowcase';
+import { ParallaxScrollSecondDemo } from './components/ParallaxScrollDemo';
 
 export default function Home() {
   return (
@@ -41,6 +42,11 @@ export default function Home() {
       {/* ARTIST SHOWCASE SECTION */}
       <section className="w-full">
         <ArtistShowcase />
+      </section>
+
+      {/* GALAXY PARALLAX SCROLL SECTION */}
+      <section className="w-full bg-black">
+        <ParallaxScrollSecondDemo />
       </section>
 
       {/* ANIMATED SECTIONS */}
