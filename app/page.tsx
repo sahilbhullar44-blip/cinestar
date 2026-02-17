@@ -4,10 +4,14 @@ import AnimatedSections from "./components/ui/animated-sections-1";
 import ScrollExpandMedia from './components/blocks/scroll-expansion-hero';
 import ArtistShowcase from './components/ArtistShowcase';
 import { ParallaxScrollSecondDemo } from './components/ParallaxScrollDemo';
+import { HeroSection } from './components/ui/hero-section';
 
 export default function Home() {
   return (
     <>
+      {/* HERO SECTION - YOGESH SHARMA */}
+   
+
       {/* SCROLL EXPANSION HERO SECTION - MAIN FEATURE */}
       <div className='min-h-screen'>
         <ScrollExpandMedia
@@ -34,9 +38,8 @@ export default function Home() {
         </ScrollExpandMedia>
       </div>
 
-      {/* GEMINI AI PLANNER SECTION */}
-      <section className="w-full bg-neutral-900">
-        <GeminiPlanner />
+          <section className="w-full">
+        <HeroSection />
       </section>
 
       {/* ARTIST SHOWCASE SECTION */}
@@ -53,6 +56,7 @@ export default function Home() {
       <section className="w-full">
         <AnimatedSections embed />
       </section>
+   
     </>
   );
 }
